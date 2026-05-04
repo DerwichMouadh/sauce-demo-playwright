@@ -1,11 +1,11 @@
-import { test, expect } from '@playwright/test';
-import { login } from '../../../helpers/authHelper';
+import { test } from '../../fixtures/testFixtures';
+import { users } from '../../data/users';
+import { AuthActions } from '../../../actions/auth.actions';
 
 test('User cannot login with invalid credentials', async ({ page }) => {
-  await login(page, 'invalid_user', 'wrong_password');
+  const auth = new AuthActions(page);
 
-  const errorMessage = page.locator('[data-test="error"]');
-
-  await expect(errorMessage).toBeVisible();
-  await expect(errorMessage).toContainText('Username and password do not match');
+  await auth.goToLoginPage();
+  await auth.login(users.invalid.username, users.invalid.password);
+  await auth.expectLoginError('Username and password do not match');
 });
