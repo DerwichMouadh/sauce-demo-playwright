@@ -78,7 +78,7 @@ npx playwright test tests/ui/auth
 ### Run a single test file
 
 ```bash id="run_single_en"
-npx playwright test tests/ui/cart/addToCart.test.ts
+npx playwright test tests/ui/auth/login.test.ts
 ```
 
 ---
