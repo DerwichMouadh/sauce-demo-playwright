@@ -1,18 +1,8 @@
 import { test, expect } from '@playwright/test';
+import { login } from '../../../helpers/authHelper';
 
 test('User can login with valid credentials', async ({ page }) => {
-  // Navigate to login page
-  await page.goto('https://www.saucedemo.com/');
+  await login(page, 'standard_user', 'secret_sauce');
 
-  // Fill username
-  await page.fill('#user-name', 'standard_user');
-
-  // Fill password
-  await page.fill('#password', 'secret_sauce');
-
-  // Click login
-  await page.locator('#login-button').click();
-
-  // Assert user is redirected to inventory page
   await expect(page).toHaveURL(/inventory/);
 });
