@@ -1,0 +1,30 @@
+# Node modules
+node_modules/
+
+# Playwright results
+test-results/
+playwright-report/
+blob-report/
+
+# Playwright cache & auth
+playwright/.cache/
+playwright/.auth/
+
+# TypeScript build
+dist/
+build/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# IDE
+.idea/
+*.iml
+out/
+
+# OS
+.DS_Store
+Thumbs.db
