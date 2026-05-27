@@ -1,13 +1,10 @@
-name: Smoke Tests (CI)
+name: Regression Tests (Manual)
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  smoke-tests:
+  regression-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,12 +22,12 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run Smoke Tests
-        run: npm run smoke
+      - name: Run Regression Tests
+        run: npm run regression
 
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-regression-report
           path: playwright-report
