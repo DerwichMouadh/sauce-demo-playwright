@@ -2,7 +2,7 @@ import { test } from '../../fixtures/testFixtures';
 import { users } from '../../data/users';
 import { AuthActions } from '../../../actions/auth.actions';
 
-test('User cannot login with invalid credentials', async ({ page }) => {
+test('@regression User cannot login with invalid credentials', async ({ page }) => {
   const auth = new AuthActions(page);
 
   await auth.goToLoginPage();
