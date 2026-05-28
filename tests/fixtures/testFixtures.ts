@@ -1,5 +1,4 @@
 import { test as base, Page } from '@playwright/test';
-import { login } from '../../helpers/authHelper';
 import { users } from '../data/users';
 import { AuthActions } from '../../actions/auth.actions';
 import { CartActions } from '../../actions/cart.actions';
@@ -20,7 +19,11 @@ export const test = base.extend<Fixtures>({
   },
 
   loggedInPage: async ({ page }, use) => {
-    await login(page, users.standard.username, users.standard.password);
+    const auth = new AuthActions(page);
+
+    await auth.goToLoginPage();
+    await auth.login(users.standard.username, users.standard.password);
+
     await use(page);
   }
 });
