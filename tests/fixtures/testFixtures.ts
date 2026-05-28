@@ -2,16 +2,21 @@ import { test as base, Page } from '@playwright/test';
 import { login } from '../../helpers/authHelper';
 import { users } from '../data/users';
 import { AuthActions } from '../../actions/auth.actions';
+import { CartActions } from '../../actions/cart.actions';
 
 type Fixtures = {
   authActions: AuthActions;
+  cartActions: CartActions;
   loggedInPage: Page;
 };
 
 export const test = base.extend<Fixtures>({
   authActions: async ({ page }, use) => {
-    const auth = new AuthActions(page);
-    await use(auth);
+    await use(new AuthActions(page));
+  },
+
+  cartActions: async ({ page }, use) => {
+    await use(new CartActions(page));
   },
 
   loggedInPage: async ({ page }, use) => {
