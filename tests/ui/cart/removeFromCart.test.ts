@@ -1,6 +1,6 @@
 import { test, expect } from '../../fixtures/testFixtures';
 
-test('Remove item from cart', async ({ cartActions }) => {
+test('@regression Remove item from cart', async ({ loggedInPage, cartActions }) => {
 
   await cartActions.addBackpackToCart();
   await cartActions.expectCartBadgeCount(1);

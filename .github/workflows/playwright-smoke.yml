@@ -1,4 +1,4 @@
-name: Smoke Tests (CI)
+name: Playwright Smoke Tests
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
 
       - name: Install dependencies
         run: npm ci
@@ -26,11 +26,11 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Smoke Tests
-        run: npm run smoke
+        run: npm run test:smoke
 
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: smoke-report
           path: playwright-report

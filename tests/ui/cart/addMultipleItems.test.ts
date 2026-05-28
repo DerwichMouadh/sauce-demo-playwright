@@ -1,6 +1,6 @@
 import { test } from '../../fixtures/testFixtures';
 
-test('@smoke Add multiple items to cart', async ({ cartActions }) => {
+test('@smoke Add multiple items to cart', async ({ loggedInPage, cartActions }) => {
 
   // Act
   await cartActions.addAllStandardItems();

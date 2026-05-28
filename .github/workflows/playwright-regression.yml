@@ -1,7 +1,9 @@
-name: Regression Tests (Manual)
+name: Playwright Regression Tests
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # manual trigger
+  schedule:
+    - cron: '0 2 * * 1' # every Monday at 2 AM
 
 jobs:
   regression-tests:
@@ -14,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
 
       - name: Install dependencies
         run: npm ci
@@ -23,11 +25,11 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Regression Tests
-        run: npm run regression
+        run: npm run test:regression
 
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-regression-report
+          name: regression-report
           path: playwright-report
