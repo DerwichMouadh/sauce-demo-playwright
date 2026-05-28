@@ -22,4 +22,9 @@ export class AuthActions {
     await expect(error).toBeVisible();
     await expect(error).toContainText(message);
   }
+
+    async expectErrorMessage(message: string) {
+    await expect(this.page.locator('[data-test="error"]'))
+      .toHaveText(message);
+  }
 }
