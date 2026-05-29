@@ -7,11 +7,25 @@ export class CartActions {
   // ADD ITEMS
   // ========================
   async addBackpackToCart() {
-    await this.page.click('[data-test="add-to-cart-sauce-labs-backpack"]');
+    await this.ensureOnInventoryPage();
+
+    const button = this.page.locator(
+      '[data-test="add-to-cart-sauce-labs-backpack"]'
+    );
+
+    await expect(button).toBeVisible();
+    await button.click();
   }
 
   async addBikeLightToCart() {
-    await this.page.click('[data-test="add-to-cart-sauce-labs-bike-light"]');
+    await this.ensureOnInventoryPage();
+
+    const button = this.page.locator(
+      '[data-test="add-to-cart-sauce-labs-bike-light"]'
+    );
+
+    await expect(button).toBeVisible();
+    await button.click();
   }
 
   async addAllStandardItems() {
@@ -59,4 +73,10 @@ export class CartActions {
       this.page.locator('.cart_item', { hasText: itemName })
     ).toHaveCount(0);
   }
+
+  async ensureOnInventoryPage() {
+    await this.page.waitForURL('**/inventory.html');
+    await this.page.locator('.inventory_list').waitFor();
+  }
+
 }
