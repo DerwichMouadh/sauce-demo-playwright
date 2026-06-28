@@ -1,8 +1,7 @@
-import { test } from '../../fixtures/testFixtures';
+import { test } from "../../fixtures/testFixtures";
 
-test('@regression Inventory images load correctly', async ({
-  inventoryActions
+test("@regression Inventory images load correctly", async ({
+  inventoryActions,
 }) => {
-
   await inventoryActions.expectInventoryImagesVisible();
 });

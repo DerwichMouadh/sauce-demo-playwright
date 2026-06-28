@@ -1,27 +1,23 @@
-import { test } from '../../fixtures/testFixtures';
+import { test } from "../../fixtures/testFixtures";
 
-test.describe('Inventory sorting', () => {
-
-  test('@regression Sort products from Z to A', async ({
-    inventoryActions
-  }) => {
-
-    await inventoryActions.sortBy('za');
-
-    await inventoryActions.expectFirstProductName(
-      'Test.allTheThings() T-Shirt (Red)'
-    );
+test.describe("Inventory sorting validation", () => {
+  test("@regression Sort A to Z", async ({ inventoryActions }) => {
+    await inventoryActions.sortBy("az");
+    await inventoryActions.expectProductsSortedAZ();
   });
 
-  test('@regression Sort products by price low to high', async ({
-    inventoryActions
-  }) => {
-
-    await inventoryActions.sortBy('lohi');
-
-    await inventoryActions.expectFirstProductName(
-      'Sauce Labs Onesie'
-    );
+  test("@regression Sort Z to A", async ({ inventoryActions }) => {
+    await inventoryActions.sortBy("za");
+    await inventoryActions.expectProductsSortedZA();
   });
 
+  test("@regression Sort Price Low to High", async ({ inventoryActions }) => {
+    await inventoryActions.sortBy("lohi");
+    await inventoryActions.expectPricesSortedLowToHigh();
+  });
+
+  test("@regression Sort Price High to Low", async ({ inventoryActions }) => {
+    await inventoryActions.sortBy("hilo");
+    await inventoryActions.expectPricesSortedHighToLow();
+  });
 });
