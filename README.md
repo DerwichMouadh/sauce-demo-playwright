@@ -1,5 +1,8 @@
 # 🧪 Sauce Demo Test Automation with Playwright & TypeScript
 
+[![Smoke Tests](https://github.com/DerwichMouadh/sauce-demo-playwright/actions/workflows/playwright-smoke.yml/badge.svg)](https://github.com/DerwichMouadh/sauce-demo-playwright/actions/workflows/playwright-smoke.yml)
+[![Regression Tests](https://github.com/DerwichMouadh/sauce-demo-playwright/actions/workflows/playwright-regression.yml/badge.svg)](https://github.com/DerwichMouadh/sauce-demo-playwright/actions/workflows/playwright-regression.yml)
+
 End-to-End (E2E) automated tests for [saucedemo.com](https://www.saucedemo.com/), plus a **playground** suite that practices Playwright features (dialogs, frames, uploads, form controls) on dedicated practice sites.
 
 Built with:
@@ -15,7 +18,7 @@ Built with:
 ## ⚙️ Installation & Setup
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/DerwichMouadh/sauce-demo-playwright.git
 cd sauce-demo-playwright
 npm ci
 npx playwright install
