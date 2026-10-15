@@ -125,7 +125,7 @@ export class InventoryActions {
 
   async expectPricesSortedHighToLow() {
     const prices = await this.getAllProductPrices();
-    const sorted = [...prices].sort((b, a) => b - a);
+    const sorted = [...prices].sort((a, b) => b - a);
     expect(prices).toEqual(sorted);
   }
 }
