@@ -1,111 +1,124 @@
 # 🧪 Sauce Demo Test Automation with Playwright & TypeScript
 
-This project implements **End-to-End (E2E) and security automated tests** for the saucedemo.com website using Playwright and TypeScript.
+End-to-End (E2E) automated tests for [saucedemo.com](https://www.saucedemo.com/), plus a **playground** suite that practices Playwright features (dialogs, frames, uploads, form controls) on dedicated practice sites.
 
-It follows a modern QA automation architecture including:
+Built with:
 - Playwright Test Framework
 - TypeScript
-- Actions Layer (business flows)
+- Actions layer (business flows)
 - Fixtures (test state management)
-- CI/CD with GitHub Actions
+- Tag-based suites (`@smoke`, `@regression`, `@playground`)
+- CI/CD with GitHub Actions (smoke + scheduled regression)
 
 ---
 
 ## ⚙️ Installation & Setup
 
 ```bash
-# Initialize Node.js project
-npm init -y
-
-# Install Playwright with TypeScript support
-npm install -D @playwright/test
+git clone <repo-url>
+cd sauce-demo-playwright
+npm ci
 npx playwright install
-
-# Initialize TypeScript
-npm install typescript
-npx tsc --init
-````
+```
 
 ---
 
 ## 🗂️ Project Structure
 
-```bash id="structure_en"
+```bash
 /project-root
 ├── tests/
-│   ├── ui/                                    # End-to-end UI functional tests
-│   │   ├── auth/                              # Authentication scenarios
-│   │   │   ├── login.test.ts                 # Valid login tests
-│   │   │   ├── invalidCredentials.test.ts    # Invalid login tests
-│   │   ├── cart/                             # Shopping cart scenarios
-│   │   └── inventory/                        # Product inventory tests
+│   ├── ui/                          # Sauce Demo functional tests
+│   │   ├── auth/                    # login, invalid credentials, empty fields, logout
+│   │   ├── cart/                    # add/remove items, multiple items, counter, continue shopping
+│   │   ├── inventory/               # page load, product list, images, sorting, item details
+│   │   └── interactions/            # hover, double click, right click, keyboard, scroll
+│   │
+│   ├── playground/                  # Playwright feature practice (external practice sites)
+│   │   ├── upload/                  # single, multiple, clear and dynamic file upload
+│   │   ├── dialogs/                 # alert, confirm (accept/dismiss), prompt
+│   │   ├── frames/                  # basic frame, iframe form, multiple frames
+│   │   ├── input-fields/            # text input fields
+│   │   ├── buttons/                 # button interactions
+│   │   └── radio-checkbox/          # radio buttons and checkboxes
+│   │
+│   ├── fixtures/
+│   │   └── testFixtures.ts         # Custom fixtures (authActions, cartActions, inventoryActions, loggedInPage)
+│   └── data/
+│       └── users.ts                # Centralized test users
 │
-├── tests/security/                           # Security test scenarios
-│
-├── actions/                                  # Business logic layer (actions)
+├── actions/                         # Business logic layer, centralized locators
 │   ├── auth.actions.ts
+│   ├── cart.actions.ts
+│   └── inventory.actions.ts
 │
-├── helpers/                                  # Utility functions
-│   ├── authHelper.ts
-│
-├── fixtures/                                 # Playwright fixtures (test setup)
-│   ├── testFixtures.ts
-│
-├── data/                                     # Centralized test data
-│   ├── users.ts
-│
-├── playwright.config.ts                      # Playwright configuration
-├── tsconfig.json                             # TypeScript configuration
-└── package.json                              # Dependencies and scripts
+├── resources/                       # Files used by upload tests (sample.txt, sample2.txt)
+├── .github/workflows/
+│   ├── playwright-smoke.yml         # Smoke suite CI
+│   └── playwright-regression.yml    # Regression suite CI (weekly + manual)
+├── playwright.config.ts             # Playwright configuration (chromium, firefox, webkit)
+├── tsconfig.json                    # TypeScript configuration (Node.js types)
+└── package.json                     # Dependencies and scripts
 ```
+
+---
+
+## 🏷️ Test Tags
+
+| Tag           | Purpose                                              |
+|---------------|------------------------------------------------------|
+| `@smoke`      | Fast critical-path checks                            |
+| `@regression` | Full Sauce Demo functional coverage                  |
+| `@playground` | Feature practice on external sites (not Sauce Demo)  |
 
 ---
 
 ## 🚀 Running Tests
 
-### Run all tests
+```bash
+# All tests
+npm test
 
-```bash id="run_all_en"
-npx playwright test
-```
+# Smoke suite
+npm run smoke
 
-### Run a specific folder
+# Regression suite
+npm run regression
 
-```bash id="run_folder_en"
+# Playground suite
+npx playwright test --grep "@playground"
+
+# A specific folder
 npx playwright test tests/ui/auth
-```
+npx playwright test tests/playground/dialogs
 
-### Run a single test file
-
-```bash id="run_single_en"
+# A single file
 npx playwright test tests/ui/auth/login.test.ts
+
+# A single browser
+npx playwright test --project=chromium
+
+# Headed / debug
+npx playwright test --headed
+npx playwright test --debug
 ```
 
 ---
 
 ## 🔁 CI/CD with GitHub Actions
 
-This project includes a CI/CD pipeline that:
+| Workflow                     | Runs                          | Command              |
+|------------------------------|-------------------------------|----------------------|
+| `playwright-smoke.yml`       | Push / pull requests          | `npm run smoke`      |
+| `playwright-regression.yml`  | Every Monday at 2 AM + manual | `npm run regression` |
 
-* Triggers on push and pull requests to `main`
-* Installs dependencies
-* Installs Playwright browsers
-* Runs tests in headless mode
-* Uploads HTML test reports as artifacts
-
-📁 Workflow file:
-
-```bash id="ci_file_en"
-.github/workflows/playwright.yml
-```
+Each workflow installs dependencies (`npm ci`), installs Playwright browsers, runs its suite headless and uploads the HTML report as an artifact (`smoke-report` / `regression-report`).
 
 ---
 
 ## 📊 Test Reports
 
-After execution, open the HTML report:
-
-```bash id="report_en"
+```bash
 npx playwright show-report
 ```
 
@@ -113,22 +126,23 @@ npx playwright show-report
 
 ## 🧠 Framework Architecture
 
-This framework follows a modern layered architecture:
-
 * **Tests** → Define WHAT to test
-* **Actions** → Define HOW business flows work
-* **Fixtures** → Manage test setup/state
+* **Actions** → Define HOW business flows work (locators live here)
+* **Fixtures** → Provide ready-to-use actions and a logged-in page
 * **Data** → Centralized test inputs
 
 ---
 
-## 🌐 Application Under Test
+## 🌐 Applications Under Test
 
-[https://www.saucedemo.com/](https://www.saucedemo.com/)
+* Sauce Demo: [https://www.saucedemo.com/](https://www.saucedemo.com/)
+* Playground:
+  * [https://the-internet.herokuapp.com/upload](https://the-internet.herokuapp.com/upload)
+  * [https://testautomationpractice.blogspot.com/](https://testautomationpractice.blogspot.com/)
+  * [https://qaplayground.com/practice/radio-checkbox](https://qaplayground.com/practice/radio-checkbox)
 
 ---
 
 ## 📚 References
 
-[https://playwright.dev/](https://playwright.dev/)
-[https://www.saucedemo.com/](https://www.saucedemo.com/)
+* [https://playwright.dev/](https://playwright.dev/)
